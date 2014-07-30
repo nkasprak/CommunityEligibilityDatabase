@@ -5,8 +5,7 @@ function returnCEPData($state,$district) {
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
 	
-	$dataQuery = "SELECT * FROM cepdata WHERE `state` = \"" . $state ."\" AND `district_id` = " . $district;
-	
+	$dataQuery = "SELECT * FROM data WHERE `state` = \"" . $state ."\" AND `district_id` = " . $district;
 	
 	$dataResult = $mysqli->query($dataQuery);
 	$returnObj = array();
@@ -38,7 +37,7 @@ function returnDistrictList($state) {
 	
 	$mysqli->close();
 	
-		return $returnObj;
+	return $returnObj;
 	
 };
 
@@ -50,12 +49,12 @@ function returnColumnNames() {
 	$columnQuery = "SELECT * FROM columns";
 	
 	
-	$$columnResult = $mysqli->query($columnQuery);
+	$columnResult = $mysqli->query($columnQuery);
+	
 	$returnObj = array();
 	while ($row = $columnResult->fetch_array(MYSQLI_ASSOC)) {
-		$returnObj[$row["district_id"]] = $row;
+		$returnObj[$row["id"]] = $row["name"];
 	}
-	
 	
 	
 	$mysqli->close();
