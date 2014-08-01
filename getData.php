@@ -7,8 +7,17 @@ CBPP*/
 function returnCEPData($state,$district,$isp) {
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
+	$state = mysqli_real_escape_string($mysqli,$state);
 	$dataQuery = "SELECT * FROM cepdata_data WHERE `state` = \"" . $state . "\"";
-	if ($district != "all") $dataQuery .=  " AND `district_id` = " . $district;
+	if (!in_array("all",$district)) {
+		$dataQuery .=  " AND (";
+		for ($i=0;$i<count($district);$i++) {
+			$district[$i] = mysqli_real_escape_string($mysqli,$district[$i]);
+			$dataQuery .= "`district_id` = " . $district[$i];
+			if ($i<count($district)-1) $dataQuery .= " OR ";
+		}
+		$dataQuery .= ")";
+	}
 	if (!in_array("all",$isp)) {
 		$dataQuery .= " AND (";
 		for ($i=0;$i<count($isp);$i++) {
@@ -47,6 +56,7 @@ function returnCEPData($state,$district,$isp) {
 function returnDistrictList($state) {
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
+	$state = mysqli_real_escape_string($mysqli,$state);
 	$districtQuery = "SELECT * FROM cepdata_districts WHERE `state` = \"" . $state ."\"";
 	$districtResult = $mysqli->query($districtQuery);
 	$returnObj = array();

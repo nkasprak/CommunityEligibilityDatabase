@@ -8,7 +8,8 @@ CBPP*/
 	include("getData.php");
 	$state = str_replace("_"," ",$_GET["state"]);
 	$district = $_GET["dist"];
-	$isp = explode(",",$_GET["isp"]);
+	$isp = explode("x",$_GET["isp"]);
+	$district = explode("x",$_GET["dist"]);
 	$districtList = returnCEPData($state,$district,$isp);
 	header('Content-type: application/json');
 	echo json_encode($districtList);

@@ -15,13 +15,24 @@ body {
 	height:100%;
 }
 
+#selectTableWrapper table{
+	margin-left:auto;
+	margin-right:auto;	
+}
+
 select{
 	font-family:droid-sans, Arial, Helvetica, sans-serif;
+	width:100%;
 }
 
 select#percentSelector{
 	height:7.5em;	
 	vertical-align:top;
+}
+
+select#districtSelector{
+	height:16em;
+	vertical-align:top;	
 }
 
 div#wrapper {
@@ -58,11 +69,12 @@ div#ajaxLoaderDisplay {
 
 table {border-collapse:collapse;}
 
-table tr.blueHeader td, table tr.blueHeader th{
+table tr.blueHeader td, table tr.blueHeader th, div.blueHeader{
 	background-color:#003768;
 	color:#fff;
 	line-height:150%;
 	font-size:18px;
+	text-align:center;
 }
 
 table tr.grayHeader td, table tr.grayHeader th{
@@ -98,6 +110,11 @@ tr.dark4 td, span.dark4 {
 	color:#fff;
 }
 
+table#dataTable {
+	width:100%;	
+	table-layout:fixed;
+}
+
 table#dataTable td {
 	border:1px solid;
 	border-color:#c0c0c0;
@@ -107,30 +124,7 @@ table#dataTable td {
 table#dataTable th {
 	border:0px;	
 }
-			
-th[data-colid="state"] {
-	width:10%;	
-}
-			
-th[data-colid="school_district"] {
-	width:25%;	
-}
-
-th[data-colid="school"] {
-	width:25%;	
-}
-
-th[data-colid="isp"] {
-	width:10%;	
-}
-
-th[data-colid="eligibility"] {
-	width:20%;	
-}
-
-th[data-colid="enrollment"] {
-	width:10%;	
-}
+		
 
 </style>
 </head>
@@ -138,7 +132,10 @@ th[data-colid="enrollment"] {
 <body>
 <div id="wrapper">
 <div id="selectArea">
-<p><strong>State: </strong>
+<div id="selectTableWrapper"><table>
+<tr>
+<td>
+<strong>State: </strong></td><td>
 <?php
 function stateSelector($id) {
 	$statesArr = array("Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming");
@@ -149,8 +146,8 @@ function stateSelector($id) {
 	echo "</select>";
 };
 stateSelector("stateSelector");?>
-</p><p><strong>District: </strong>
-<select id="districtSelector"></select></p><p><strong>Eligibility: </strong>
+</td></tr><tr><td><strong>District: </strong></td><td>
+<select multiple id="districtSelector"></select></td></tr><tr><td><strong>Eligibility: </strong></td><td>
 <select multiple id="percentSelector">
 	<option selected value="all">All</option>
 	<option value="0">0-30%</option>
@@ -158,7 +155,9 @@ stateSelector("stateSelector");?>
     <option value="40">40-49%</option>
     <option value="50">50-59%</option>
     <option value="60">60-100%</option>
-</select></p>
+</select></td></tr></table>
+<p align="center">Ctrl- or shift-click to select multiple items</p>
+</div>
 
 <div id="ajaxLoaderDisplay"><img src="ajax-loader.gif" alt="" />
 (<span id="progressRowIndex"></span>/<span id="progressRowTotal"></span>)
@@ -166,28 +165,31 @@ stateSelector("stateSelector");?>
 </div>
 <p>&nbsp;</p>
 <div id="tableWrapper">
+<div class="blueHeader">
+<strong>Eligibility for Community Eligibility Provision</strong>
+</div>
 <table id="dataTable" class="tablesorter" cellspacing="0">
 	<thead>
-    	<tr class='blueHeader'>
+    	<!--<tr class='blueHeader'>
         	<th colspan="6" >Eligibility for Community Eligibility Provision</th>
-        </tr>
+        </tr>-->
     	<tr class='grayHeader'>
         <?php
 		include("config.php");
 		include("getData.php");
 		$columnNames = returnColumnNames();
-		function colHead($id) {
+		function colHead($id,$width) {
 			global $columnNames;
-			echo "<th data-colid=\"" . $id . "\">".$columnNames[$id]."</th>";	
+			echo "<th data-colid=\"" . $id . "\"" . ($width = -1 ? " width=\"" . $width . "\"" : "") . ">".$columnNames[$id]."</th>";	
 		}
 		?>
         <?php 
-			colHead("state");
-			colHead("school_district");
-			colHead("school");
-			colHead("isp");
-			colHead("eligibility");
-			colHead("enrollment");
+			colHead("state",60);
+			colHead("school_district",162);
+			colHead("school",162);
+			colHead("isp",70);
+			colHead("eligibility",90);
+			colHead("enrollment",-1);
 		?>
         </tr>
     </thead>
@@ -292,7 +294,13 @@ $(document).ready(function() {
 					rowString += "<td data-colid=\"state\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["state"] + "</td>";
 					rowString += "<td data-colid=\"school_district\">" + cepDatabase.getDistrictName(cepDatabase.currentEntries[cepDatabase.entryIndex]["district_id"]) + "</td>";
 					rowString += "<td data-colid=\"school\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["school"] + "</td>";
-					rowString += "<td data-colid=\"isp\">" + Math.round(cepDatabase.currentEntries[cepDatabase.entryIndex]["isp"]*1000)/10 +"%</td>";
+					if ((cepDatabase.currentEntries[cepDatabase.entryIndex]["override"])) {
+						rowString += "<td data-colid=\"isp\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["override"] + "</td>";
+					} else if (isNaN(cepDatabase.currentEntries[cepDatabase.entryIndex]["isp"])) {
+						rowString += "<td data-colid=\"isp\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["isp"] + "</td>";
+					} else {
+						rowString += "<td data-colid=\"isp\">" + Math.round(cepDatabase.currentEntries[cepDatabase.entryIndex]["isp"]*1000)/10 +"%</td>";
+					}
 					rowString += "<td data-colid=\"eligibility\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["eligibility"] +"</td>";;
 					rowString += "<td data-colid=\"enrollment\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["enrollment"] + "</td>";
 					rowString += "</tr>";
@@ -314,9 +322,10 @@ $(document).ready(function() {
 				var state = $("#stateSelector").val().replace(" ","_");
 				var district = $("#districtSelector").val();
 				var isp = $("#percentSelector").val();
+				isp = isp.join("x");
+				district = district.join("x");
 				if (!district) district = 0;
 				var url = "data.php?state=" + state + "&dist=" + district + "&isp=" + isp;
-
 				var dataRequest = $.get(url, function(d) {
 					cepDatabase.currentData = d;
 					cepDatabase.currentEntries = [];
@@ -345,7 +354,6 @@ $(document).ready(function() {
 	});
 	
 	$("#percentSelector, #districtSelector").change(function() {
-		console.log($(this).val());
 		cepDatabase.retrieveData();
 	});
 	
