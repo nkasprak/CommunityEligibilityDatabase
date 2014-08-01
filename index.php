@@ -197,21 +197,27 @@ stateSelector("stateSelector");?>
     
     </tbody>
     <tfoot>
-    	<td colspan="6"><p><strong>Technical notes</strong></p>
+    	<td colspan="6"><div style="margin:5px"><p><strong>Technical notes</strong></p>
 
 <p>* When actual Identified Student Percentages (ISPs) were not available for individual schools, some states reported proxy ISPs, and/or the percentage of directly certified students out of total enrollment.  The Identified Student Percentage column in this table shows, in order of availability, the actual ISP, the proxy ISP or the percentage of direct certified students.</p>
 
+
 <p>** A school is classified as eligible when its ISP is 40 percent or higher, and as near-eligible when its ISP is between 30 percent and less than 40 percent.  A school with an ISP less than 30 percent is unclassified.</p>
 
-<p>*** The schools are color-coded by ISP according to the following legend:</p>
+<p>The schools are color-coded by ISP according to the following legend:</p>
 
-<p><span class="dark0">ISP Below 30%, or ISP figure unreported</span><br />
-<span class="dark1">ISP 30%-40%</span><br />
-<span class="dark2">ISP 40%-50%</span><br />
-<span class="dark3">ISP 50%-60%</span><br />
-<span class="dark4">ISP 60% and higher</span></p>
+<table>
+<tr class="dark0">
+<td>
+<span >ISP Below 30%, or ISP figure unreported</span></td></tr><tr class="dark1">
+<td>ISP 30%-40%</td></tr><tr class="dark2"><td>
+ISP 40%-50%</td></tr><tr class="dark3"><td>
+ISP 50%-60%</td></tr><tr class="dark4"><td>
+ISP 60% and higher</td>
+</tr>
+</table>
 
-<p>This school list does not include the state of New York.</p>
+<p>This list does not include schools in the state of New York because its list could not be transferred to this format.  New York's list of eligible districts and schools is available <a href="http://portal.nysed.gov/portal/page/pref/CNKC/IntDocs/CEP%20potential%20RA%2014-15.pdf">here</a>.</p>
 
 <p>Illinois, Louisiana and South Dakota did not report ISP figures, but provided instead their own ISP categories.  Using this information, their schools are classified in this table as eligible and near-eligible, but most could not be categorized according to the ISP legend.</p>
 
@@ -221,7 +227,7 @@ stateSelector("stateSelector");?>
 
 <p>16 schools in Indiana, Mississippi, Nebraska, New Mexico, North Dakota and Oregon report ISPs greater than 100%.</p>
 
-<p>Ten states (Georgia, Idaho, Indiana, Kentucky, Maryland, Michigan, Missouri, Pennsylvania, South Carolina and West Virginia) provide total enrollment for individual schools.</p>
+<p>Ten states (Georgia, Idaho, Indiana, Kentucky, Maryland, Michigan, Missouri, Pennsylvania, South Carolina and West Virginia) provide total enrollment for individual schools.</p></div>
 </td>
     </tfoot>
 </table>
@@ -304,7 +310,7 @@ $(document).ready(function() {
 					rowString += "<td data-colid=\"eligibility\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["eligibility"] +"</td>";;
 					rowString += "<td data-colid=\"enrollment\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["enrollment"] + "</td>";
 					rowString += "</tr>";
-					$("#dataTable tbody").append(rowString);
+					$("#dataTable > tbody").append(rowString);
 					cepDatabase.entryIndex++;
 					$("span#progressRowIndex").html(cepDatabase.entryIndex);
 					$("span#progressRowTotal").html(cepDatabase.currentEntries.length);
@@ -318,7 +324,7 @@ $(document).ready(function() {
 			},
 			retrieveData: function() {
 				cepDatabase.preventUpdates();
-				$("#dataTable tbody").html("");
+				$("#dataTable > tbody").html("");
 				var state = $("#stateSelector").val().replace(" ","_");
 				var district = $("#districtSelector").val();
 				var isp = $("#percentSelector").val();
