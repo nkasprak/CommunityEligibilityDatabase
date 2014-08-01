@@ -152,7 +152,7 @@ stateSelector("stateSelector");?>
 </p><p><strong>District: </strong>
 <select id="districtSelector"></select></p><p><strong>Eligibility: </strong>
 <select multiple id="percentSelector">
-	<option value="all">All</option>
+	<option selected value="all">All</option>
 	<option value="0">0-30%</option>
     <option value="30">30-39%</option>
     <option value="40">40-49%</option>
@@ -305,7 +305,6 @@ $(document).ready(function() {
 				if (cepDatabase.entryIndex < cepDatabase.currentEntries.length) {
 					cepDatabase.backgroundDrawTimer = setTimeout(cepDatabase.drawRow,1)	
 				} else {
-					
 					cepDatabase.allowUpdates();
 				}
 			},
@@ -317,7 +316,6 @@ $(document).ready(function() {
 				var isp = $("#percentSelector").val();
 				if (!district) district = 0;
 				var url = "data.php?state=" + state + "&dist=" + district + "&isp=" + isp;
-				console.log(url);
 
 				var dataRequest = $.get(url, function(d) {
 					cepDatabase.currentData = d;
@@ -332,6 +330,8 @@ $(document).ready(function() {
 					if (cepDatabase.currentEntries.length > 0) {
 						cepDatabase.drawRow();
 					} else {
+						var rowString = "<tr><td colspan='7' align='center'>No results found</td></tr>";
+						$("#dataTable tbody").append(rowString);	
 						cepDatabase.allowUpdates();
 					}
 				});
