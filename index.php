@@ -346,7 +346,7 @@ $(document).ready(function() {
 						cepDatabase.drawRow();
 					} else {
 						var rowString = "<tr><td colspan='6' align='center'>No results found</td></tr>";
-						$("#dataTable tbody").append(rowString);	
+						$("#dataTable > tbody").append(rowString);	
 						cepDatabase.allowUpdates();
 					}
 				});
