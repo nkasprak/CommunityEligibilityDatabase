@@ -7,7 +7,7 @@ CBPP*/
 function returnCEPData($state,$district,$isp) {
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
-	$dataQuery = "SELECT * FROM data WHERE `state` = \"" . $state . "\"";
+	$dataQuery = "SELECT * FROM cepdata_data WHERE `state` = \"" . $state . "\"";
 	if ($district != "all") $dataQuery .=  " AND `district_id` = " . $district;
 	if (!in_array("all",$isp)) {
 		$dataQuery .= " AND (";
@@ -47,7 +47,7 @@ function returnCEPData($state,$district,$isp) {
 function returnDistrictList($state) {
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
-	$districtQuery = "SELECT * FROM districts WHERE `state` = \"" . $state ."\"";
+	$districtQuery = "SELECT * FROM cepdata_districts WHERE `state` = \"" . $state ."\"";
 	$districtResult = $mysqli->query($districtQuery);
 	$returnObj = array();
 	while ($row = $districtResult->fetch_array(MYSQLI_ASSOC)) {
@@ -69,7 +69,7 @@ function returnColumnNames() {
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
 	
-	$columnQuery = "SELECT * FROM columns";
+	$columnQuery = "SELECT * FROM cepdata_columns";
 	
 	
 	$columnResult = $mysqli->query($columnQuery);
