@@ -345,7 +345,7 @@ $(document).ready(function() {
 					if (cepDatabase.currentEntries.length > 0) {
 						cepDatabase.drawRow();
 					} else {
-						var rowString = "<tr><td colspan='7' align='center'>No results found</td></tr>";
+						var rowString = "<tr><td colspan='6' align='center'>No results found</td></tr>";
 						$("#dataTable tbody").append(rowString);	
 						cepDatabase.allowUpdates();
 					}
