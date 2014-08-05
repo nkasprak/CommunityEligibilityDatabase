@@ -184,7 +184,7 @@ stateSelector("stateSelector");?>
 		}
 		?>
         <?php 
-			colHead("state",60);
+			colHead("state",-1);
 			colHead("school_district",162);
 			colHead("school",162);
 			colHead("isp",70);
@@ -323,6 +323,8 @@ $(document).ready(function() {
 				}
 			},
 			retrieveData: function() {
+				$("span#progressRowIndex").html("0");
+				$("span#progressRowTotal").html("?");
 				cepDatabase.preventUpdates();
 				$("#dataTable > tbody").html("");
 				var state = $("#stateSelector").val().replace(" ","_");
