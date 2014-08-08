@@ -1,0 +1,122 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin:0px;
+	padding:0px;
+	font-family:droid-sans, Arial, Helvetica, sans-serif;
+	font-size:13px;
+	line-height:120%;
+	height:100%;
+}
+
+#selectTableWrapper table{
+	margin-left:auto;
+	margin-right:auto;	
+}
+
+select{
+	font-family:droid-sans, Arial, Helvetica, sans-serif;
+	width:100%;
+}
+
+select#percentSelector{
+	height:9em;	
+	vertical-align:top;
+}
+
+select#districtSelector{
+	height:16em;
+	vertical-align:top;	
+}
+
+div#wrapper {
+	padding-top:3em;
+	margin-left:auto;
+	margin-right:auto;
+	width:650px;
+	position:relative;	
+}
+
+div#selectArea {
+	padding:5px;
+	background-color:#FBF9F0;
+	-webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow:    5px 5px 20px rgba(0, 0, 0, 0.2);
+	box-shadow:         5px 5px 20px rgba(0, 0, 0, 0.2);
+	
+}
+
+div#tableWrapper {
+	position:relative;
+	left:0px;
+	max-height:1000px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	-webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow:    5px 5px 20px rgba(0, 0, 0, 0.2);
+	box-shadow:         5px 5px 20px rgba(0, 0, 0, 0.2);	
+}
+
+div#ajaxLoaderDisplay {
+	display:none;	
+}
+
+table {border-collapse:collapse;}
+
+table tr.blueHeader td, table tr.blueHeader th, div.blueHeader{
+	background-color:#003768;
+	color:#fff;
+	line-height:150%;
+	font-size:18px;
+	text-align:center;
+}
+
+table tr.grayHeader td, table tr.grayHeader th{
+	background-color:#c0c0c0;
+	cursor:pointer;
+}
+
+table th {
+	vertical-align:bottom;
+	text-align:center;
+}
+
+
+table td {
+	vertical-align:top;
+	text-align:left;	
+}
+
+tr.dark0 td, span.dark0 {
+	background-color:#fff;	
+}
+tr.dark1 td, span.dark1 {
+	background-color:rgb(221,235,247);
+}
+tr.dark2 td, span.dark2 {
+	background-color:rgb(181,215,238);
+}
+tr.dark3 td, span.dark3 {
+	background-color:rgb(155,194,230);
+}
+tr.dark4 td, span.dark4 {
+	background-color:rgb(47,117,181);
+	color:#fff;
+}
+
+table#dataTable {
+	width:100%;	
+	table-layout:fixed;
+}
+
+table#dataTable td {
+	border:1px solid;
+	border-color:#c0c0c0;
+	border-color:rgba(0,0,0,0.1);
+}
+
+table#dataTable th {
+	border:0px;	
+}
+	

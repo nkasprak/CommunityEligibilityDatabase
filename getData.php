@@ -23,8 +23,11 @@ function returnCEPData($state,$district,$isp) {
 		for ($i=0;$i<count($isp);$i++) {
 			$ispEntry = $isp[$i];
 			switch ($ispEntry) {
+			case "unknown":
+			$app = "(`isp` = -1)";
+			break;
 			case 0:
-			$app = "(`isp` < .3)";
+			$app = "(0 <= `isp` < .3)";
 			break;
 			case 30:
 			$app = "(0.3 <= `isp` AND `isp` < .4)";
