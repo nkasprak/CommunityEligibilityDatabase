@@ -126,6 +126,7 @@ $(document).ready(function() {
 	}();
 	
 	$("#stateSelector").change(function() {
+		cepDatabase.preventUpdates();
 		var state = $(this).val().replace(" ","_");
 		cepDatabase.getDistrictList(state);
 	});
