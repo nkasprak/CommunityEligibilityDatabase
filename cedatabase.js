@@ -79,12 +79,11 @@ $(document).ready(function() {
 					rowString.push("</tr>");
 					groupString.push(rowString);
 					cepDatabase.entryIndex++;
-					$("span#progressRowIndex").html(cepDatabase.entryIndex);
-					$("span#progressRowTotal").html(cepDatabase.currentEntries.length);
 					if (cepDatabase.entryIndex == cepDatabase.currentEntries.length) break;
 				}
 				groupString = groupString.join("");
 				$("#dataTable > tbody").append(groupString);
+				$("span#progressRowIndex").html(cepDatabase.entryIndex);
 				if (cepDatabase.entryIndex < cepDatabase.currentEntries.length) {
 					cepDatabase.backgroundDrawTimer = setTimeout(cepDatabase.drawRow,1)	
 				} else {
@@ -92,6 +91,7 @@ $(document).ready(function() {
 				}
 			},
 			retrieveData: function() {
+				$("#statusText").html("Retreiving data...");
 				$("span#progressRowIndex").html("0");
 				$("span#progressRowTotal").html("?");
 				cepDatabase.preventUpdates();
@@ -104,6 +104,7 @@ $(document).ready(function() {
 				if (!district) district = 0;
 				var url = "data.php?state=" + state + "&dist=" + district + "&isp=" + isp;
 				var dataRequest = $.get(url, function(d) {
+					$("#statusText").html("Building table...");
 					cepDatabase.currentData = d;
 					cepDatabase.currentEntries = [];
 					cepDatabase.entryIndex = 0;
@@ -113,6 +114,7 @@ $(document).ready(function() {
 					cepDatabase.currentEntries.sort(function(a,b) {
 						return a["id"]*1 - b["id"]*1;
 					});
+					$("span#progressRowTotal").html(cepDatabase.currentEntries.length);
 					$("#numSchools").html(cepDatabase.currentEntries.length + (cepDatabase.currentEntries.length==1 ? " school" : " schools"));
 					if (cepDatabase.currentEntries.length > 0) {
 						cepDatabase.drawRow();

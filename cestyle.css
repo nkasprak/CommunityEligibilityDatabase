@@ -60,6 +60,8 @@ div#tableWrapper {
 
 div#ajaxLoaderDisplay {
 	display:none;	
+	width:100%;
+	text-align:center;
 }
 
 table {border-collapse:collapse;}

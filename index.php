@@ -39,7 +39,7 @@ stateSelector("stateSelector");?>
 <p align="center">Ctrl- or shift-click to select multiple items</p>
 </div>
 
-<div id="ajaxLoaderDisplay"><img src="ajax-loader.gif" alt="" />
+<div id="ajaxLoaderDisplay" align="center"><img src="ajax-loader.gif" alt="" /> <span id="statusText"></span>
 (<span id="progressRowIndex"></span>/<span id="progressRowTotal"></span>)
 <button id="stopButton">Stop Loading</button></div>
 </div>
