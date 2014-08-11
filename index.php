@@ -48,6 +48,9 @@ stateSelector("stateSelector");?>
 <div class="blueHeader">
 <strong>Eligibility for Community Eligibility Provision</strong>
 </div>
+<div class="grayHeader" align="center">
+<strong>Showing <span id="numSchools"></span></strong>
+</div>
 <table id="dataTable" class="tablesorter" cellspacing="0">
 	<thead>
     	<!--<tr class='blueHeader'>

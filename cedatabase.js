@@ -113,6 +113,7 @@ $(document).ready(function() {
 					cepDatabase.currentEntries.sort(function(a,b) {
 						return a["id"]*1 - b["id"]*1;
 					});
+					$("#numSchools").html(cepDatabase.currentEntries.length + (cepDatabase.currentEntries.length==1 ? " school" : " schools"));
 					if (cepDatabase.currentEntries.length > 0) {
 						cepDatabase.drawRow();
 					} else {

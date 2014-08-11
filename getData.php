@@ -74,29 +74,19 @@ function returnDistrictList($state) {
 	});
 	$mysqli->close();
 	return $returnObj;
-	
 };
 
 function returnColumnNames() {
-	
 	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
 	$mysqli->set_charset("utf8");
-	
 	$columnQuery = "SELECT * FROM cepdata_columns";
-	
-	
 	$columnResult = $mysqli->query($columnQuery);
-	
 	$returnObj = array();
 	while ($row = $columnResult->fetch_array(MYSQLI_ASSOC)) {
 		$returnObj[$row["id"]] = $row["name"];
 	}
-	
-	
 	$mysqli->close();
-	
 	return $returnObj;
-	
 }
 
 ?>

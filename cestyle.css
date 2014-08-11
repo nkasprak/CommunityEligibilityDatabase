@@ -72,7 +72,7 @@ table tr.blueHeader td, table tr.blueHeader th, div.blueHeader{
 	text-align:center;
 }
 
-table tr.grayHeader td, table tr.grayHeader th{
+table tr.grayHeader td, table tr.grayHeader th, div.grayHeader{
 	background-color:#c0c0c0;
 	cursor:pointer;
 }
