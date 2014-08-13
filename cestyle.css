@@ -50,7 +50,7 @@ div#selectArea {
 div#tableWrapper {
 	position:relative;
 	left:0px;
-	max-height:1000px;
+	max-height:700px;
 	overflow-y:auto;
 	overflow-x:hidden;
 	-webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);

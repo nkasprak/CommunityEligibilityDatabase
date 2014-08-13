@@ -77,6 +77,7 @@ $(document).ready(function() {
 					rowString.push("<td data-colid=\"eligibility\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["eligibility"] +"</td>");
 					rowString.push("<td data-colid=\"enrollment\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["enrollment"] + "</td>");
 					rowString.push("</tr>");
+					rowString = rowString.join("");
 					groupString.push(rowString);
 					cepDatabase.entryIndex++;
 					if (cepDatabase.entryIndex == cepDatabase.currentEntries.length) break;
@@ -90,15 +91,24 @@ $(document).ready(function() {
 					cepDatabase.allowUpdates();
 				}
 			},
+			drawNullResult: function() {
+				var rowString = "<tr><td colspan='6' align='center'>No results found</td></tr>";
+				$("#dataTable > tbody").append(rowString);	
+				cepDatabase.allowUpdates();
+			},
 			retrieveData: function() {
 				$("#statusText").html("Retreiving data...");
 				$("span#progressRowIndex").html("0");
 				$("span#progressRowTotal").html("?");
-				cepDatabase.preventUpdates();
 				$("#dataTable > tbody").html("");
 				var state = $("#stateSelector").val().replace(" ","_");
 				var district = $("#districtSelector").val();
 				var isp = $("#percentSelector").val();
+				if (district == null || isp == null) {
+					cepDatabase.drawNullResult();
+					return false;
+				};
+				cepDatabase.preventUpdates();
 				isp = isp.join("x");
 				district = district.join("x");
 				if (!district) district = 0;
@@ -119,9 +129,7 @@ $(document).ready(function() {
 					if (cepDatabase.currentEntries.length > 0) {
 						cepDatabase.drawRow();
 					} else {
-						var rowString = "<tr><td colspan='6' align='center'>No results found</td></tr>";
-						$("#dataTable > tbody").append(rowString);	
-						cepDatabase.allowUpdates();
+						cepDatabase.drawNullResult();
 					}
 				});
 			}
@@ -138,14 +146,14 @@ $(document).ready(function() {
 		cepDatabase.retrieveData();
 	});
 	
-	$("#dataTable").tablesorter();
-	
-	$("#stopButton").click(cepDatabase.abortTableDraw);
-	
 	cepDatabase.getDistrictList("Alabama");
 	
+	$("#stopButton").click(cepDatabase.abortTableDraw);
+
+	$("#dataTable").tablesorter();
+
 	} catch (ex) {
-		console.log(ex);	
+		try {console.log(ex)} catch (ex) {};	
 	}
 	
 });

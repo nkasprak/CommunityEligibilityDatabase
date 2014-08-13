@@ -2,9 +2,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Community Eligibility Data</title>
+
 <script src="//use.edgefonts.net/droid-sans.js"></script>
 <script src="jquery-1.10.2.min.js"></script>
 <script src="jquery.tablesorter.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="cestyle.css" />
 </head>
 
@@ -25,7 +27,7 @@ function stateSelector($id) {
 	echo "</select>";
 };
 stateSelector("stateSelector");?>
-</td></tr><tr><td><strong>District: </strong></td><td>
+</td></tr><tr><td><strong>District: </strong></td><td width="400">
 <select multiple id="districtSelector"></select></td></tr><tr><td><strong>Eligibility: </strong></td><td>
 <select multiple id="percentSelector">
 	<option selected value="all">All</option>
@@ -82,33 +84,23 @@ stateSelector("stateSelector");?>
     <tfoot>
     	<td colspan="6"><div style="margin:5px"><p><strong>Technical notes</strong></p>
 
-<p>* When actual Identified Student Percentages (ISPs) were not available for individual schools, some states reported proxy ISPs, and/or the percentage of directly certified students out of total enrollment.  The Identified Student Percentage column in this table shows, in order of availability, the actual ISP, the proxy ISP or the percentage of direct certified students.</p>
-
-
-<p>** A school is classified as eligible when its ISP is 40 percent or higher, and as near-eligible when its ISP is between 30 percent and less than 40 percent.  A school with an ISP less than 30 percent is unclassified.</p>
-
-<p>The schools are color-coded by ISP according to the following legend:</p>
-
+<p>* When actual Identified Student Percentages (ISPs) were not  available for individual schools, some states reported proxy ISPs, and/or the  percentage of directly certified students out of total enrollment. The  Identified Student Percentage column in this table shows, in order of  availability, the actual ISP, the proxy ISP, or the percentage of directly  certified students.</p>
+<p>** A school is classified as eligible when its ISP is 40  percent or higher, and as near-eligible when its ISP is at least 30 percent but  less than 40 percent. A school with an ISP less than 30 percent is  unclassified.</p>
+<p>The schools are color-coded by ISP according to the  following legend:</p>
 <table>
-<tr class="dark0">
+  <tbody><tr class="dark0">
 <td>
-<span >ISP Below 30%, or ISP figure unreported</span></td></tr><tr class="dark1">
+<span>ISP Below 30%, or ISP figure unreported</span></td></tr><tr class="dark1">
 <td>ISP 30%-40%</td></tr><tr class="dark2"><td>
 ISP 40%-50%</td></tr><tr class="dark3"><td>
 ISP 50%-60%</td></tr><tr class="dark4"><td>
 ISP 60% and higher</td>
 </tr>
-</table>
-
-<p>Illinois, Louisiana and South Dakota did not report ISP figures, but provided instead their own ISP categories.  Using this information, their schools are classified in this table as eligible and near-eligible, but most could not be categorized according to the ISP legend.</p>
-
-<p>Ohio does not provide ISP figures, but classified their schools as eligible for CEP "district-wide."  Using this information, its schools have been classified as eligible in this table.</p>
-
-<p>Eight schools in Georgia, 113 schools in Indiana, one school in South Carolina and 18 schools in Maryland do not provide enough information to determine their ISP and ISP categories.  They are uncategorized in this table. </p>
-
-<p>16 schools in Indiana, Mississippi, Nebraska, New Mexico, North Dakota and Oregon report ISPs greater than 100%.</p>
-
-<p>Eleven states (Georgia, Idaho, Indiana, Kentucky, Maryland, Michigan, Missouri, New York, Pennsylvania, South Carolina and West Virginia) provide total enrollment for individual schools. 133 schools in Georgia, Indiana and Maryland were reported as having zero enrollment.</p></div>
+</tbody></table>
+<p>Illinois, Louisiana, and South Dakota did not report ISP  figures but provided instead their own ISP categories. Using this information,  their schools are classified in this table as eligible and near-eligible, but  most could not be categorized according to the ISP legend.</p>
+<p>Ohio did not provide ISP figures but classified its schools  as eligible for CEP &quot;district-wide.&quot; Using this information, its  schools have been classified as eligible in this table.</p>
+<p>Eight schools in Georgia, 113 schools in Indiana, one school  in South Carolina, and 18 schools in Maryland did not provide enough  information to determine their ISP and ISP categories. They are uncategorized  in this table. </p>
+<p>Eleven states (Georgia, Idaho, Indiana, Kentucky, Maryland,  Michigan, Missouri, New York, Pennsylvania, South Carolina and West Virginia)  provided total enrollment for individual schools; 133 schools in Georgia,  Indiana, and Maryland were reported as having zero enrollment.</p></div>
 </td>
     </tfoot>
 </table>
