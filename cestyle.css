@@ -15,6 +15,12 @@ body {
 	margin-right:auto;	
 }
 
+#selectTableWrapper input[type="radio"] {
+	position:relative;
+	left:-5px;
+	top:-2px;	
+}
+
 select{
 	font-family:droid-sans, Arial, Helvetica, sans-serif;
 	width:100%;
@@ -28,6 +34,10 @@ select#percentSelector{
 select#districtSelector{
 	height:16em;
 	vertical-align:top;	
+}
+
+#legendWrapper {
+	text-align:center;	
 }
 
 div#wrapper {
@@ -64,7 +74,15 @@ div#ajaxLoaderDisplay {
 	text-align:center;
 }
 
-table {border-collapse:collapse;}
+table {
+	border-collapse:collapse;
+	height:100%;
+}
+
+div.blueHeader, div.grayHeader {
+	position:relative;	
+	z-index:100;
+}
 
 table tr.blueHeader td, table tr.blueHeader th, div.blueHeader{
 	background-color:#003768;
@@ -79,11 +97,43 @@ table tr.grayHeader td, table tr.grayHeader th, div.grayHeader{
 	cursor:pointer;
 }
 
+table th[data-colid='enrollment'] div.tableHeader div.text {
+	left:2%;
+}
+
+table th div.tablesorter-header-inner {
+	height:100%;
+	width:100%;	
+	margin:0px;
+	padding:0px;
+}
+
 table th {
 	vertical-align:bottom;
 	text-align:center;
+	position:relative;
+	height:100%;
+	border:0px;	
+	border-spacing:0px;
+	
 }
 
+table th div.tableHeader {
+	position:relative;
+	background-color:#c0c0c0;
+	width:110%;
+	height:110%;
+	overflow:hidden;
+	height:5em;
+	left:-1px;
+}
+
+table th div.tableHeader div.text {
+	position:absolute;
+	bottom:0px;
+	width:80%;
+	left:8%;
+}
 
 table td {
 	vertical-align:top;
@@ -118,7 +168,4 @@ table#dataTable td {
 	border-color:rgba(0,0,0,0.1);
 }
 
-table#dataTable th {
-	border:0px;	
-}
 	

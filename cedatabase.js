@@ -37,11 +37,11 @@ $(document).ready(function() {
 			},
 			getDistrictList: function(state) {
 				try {
-				var htmlString="<option value=\"all\">All</option>";
+				var htmlString="<option selected value=\"all\">All</option>";
 				var districts = $.get("districts.php?state=" + state,function(d) {
 					
 					for (var i = 0;i<d.length;i++) {
-						htmlString += "<option value=\"" + d[i]["district_id"]  + "\"" + (i==0 ? " selected":"") + ">" + d[i]["school_district"] + "</option>";
+						htmlString += "<option value=\"" + d[i]["district_id"]  + "\"" /*+ (i==0 ? " selected":"")*/ + ">" + d[i]["school_district"] + "</option>";
 					}
 					$("#districtSelector").html(htmlString);
 					cepDatabase.retrieveData();
@@ -57,6 +57,8 @@ $(document).ready(function() {
 					var rowString = [];
 					var classString = "dark0";
 					var isp = cepDatabase.currentEntries[cepDatabase.entryIndex]["isp"];
+					var participation = "No";
+					var enrollment = "";
 					if (isp>=.3) classString = "dark1";
 					if (isp>=.4) classString = "dark2";
 					if (isp>=.5) classString = "dark3";
@@ -74,8 +76,12 @@ $(document).ready(function() {
 					} else {
 						rowString.push("<td data-colid=\"isp\">" + Math.round(cepDatabase.currentEntries[cepDatabase.entryIndex]["isp"]*1000)/10 +"%</td>");
 					}
-					rowString.push("<td data-colid=\"eligibility\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["eligibility"] +"</td>");
-					rowString.push("<td data-colid=\"enrollment\">" + cepDatabase.currentEntries[cepDatabase.entryIndex]["enrollment"] + "</td>");
+					if (cepDatabase.currentEntries[cepDatabase.entryIndex]["participation"] === "Y") participation = "Yes";
+					rowString.push("<td data-colid=\"participation\">" + participation +"</td>");
+					if (cepDatabase.currentEntries[cepDatabase.entryIndex]["enrollment"] !== null) {
+						enrollment = cepDatabase.currentEntries[cepDatabase.entryIndex]["enrollment"];
+					}
+					rowString.push("<td data-colid=\"enrollment\">" + enrollment + "</td>");
 					rowString.push("</tr>");
 					rowString = rowString.join("");
 					groupString.push(rowString);
@@ -104,6 +110,7 @@ $(document).ready(function() {
 				var state = $("#stateSelector").val().replace(" ","_");
 				var district = $("#districtSelector").val();
 				var isp = $("#percentSelector").val();
+				var show = $("#selectTableWrapper input[name='participation']:checked").val();
 				if (district == null || isp == null) {
 					cepDatabase.drawNullResult();
 					return false;
@@ -112,10 +119,20 @@ $(document).ready(function() {
 				isp = isp.join("x");
 				district = district.join("x");
 				if (!district) district = 0;
-				var url = "data.php?state=" + state + "&dist=" + district + "&isp=" + isp;
+				var url = "data.php?state=" + state + "&dist=" + district + "&isp=" + isp + "&show=" + show;
 				var dataRequest = $.get(url, function(d) {
 					$("#statusText").html("Building table...");
 					cepDatabase.currentData = d;
+					var numParticipating = 0;
+					var numEligible = 0;
+					for (var entry =0; entry<d.length; entry++) {
+						if (d[entry]["participation"] == "Y") {
+							numParticipating++;	
+						}
+						if (d[entry]["isp"] >= 0.3 || d[entry]["isp"] == -1) {
+							numEligible++;	
+						}
+					}
 					cepDatabase.currentEntries = [];
 					cepDatabase.entryIndex = 0;
 					for (var entry in cepDatabase.currentData) {
@@ -125,7 +142,17 @@ $(document).ready(function() {
 						return a["id"]*1 - b["id"]*1;
 					});
 					$("span#progressRowTotal").html(cepDatabase.currentEntries.length);
-					$("#numSchools").html(cepDatabase.currentEntries.length + (cepDatabase.currentEntries.length==1 ? " school" : " schools"));
+					switch (show) {
+						case "B":
+						$("#numSchools").html(numParticipating + (numParticipating==1 ? " school" : " schools") + " adopting CEP of " + numEligible + " eligible" + (numEligible==1 ? " school" : " schools"));
+						break;
+						case "Y":
+						$("#numSchools").html(d.length + (d.length==1 ? " school" : " schools") + " adopting CEP"/* + " of " + numEligible + " eligible" + (numEligible==1 ? " school" : " schools")*/);
+						break;
+						case "N":
+						$("#numSchools").html(d.length + (d.length==1 ? " school" : " schools") + " not adopting CEP"/* + " of " + numEligible + " eligible" + (numEligible==1 ? " school" : " schools")*/);
+						break;
+					}
 					if (cepDatabase.currentEntries.length > 0) {
 						cepDatabase.drawRow();
 					} else {
@@ -142,7 +169,7 @@ $(document).ready(function() {
 		cepDatabase.getDistrictList(state);
 	});
 	
-	$("#percentSelector, #districtSelector").change(function() {
+	$("#percentSelector, #districtSelector, #selectTableWrapper input[name='participation']").change(function() {
 		cepDatabase.retrieveData();
 	});
 	
@@ -151,6 +178,12 @@ $(document).ready(function() {
 	$("#stopButton").click(cepDatabase.abortTableDraw);
 
 	$("#dataTable").tablesorter();
+	
+	$("#tableWrapper").on("scroll", function() {
+		var scrolltop = $(this).scrollTop();
+		$("#tableWrapper table th div.tableHeader").css("top", (scrolltop - 1) + "px");
+		$("#tableWrapper .blueHeader, #tableWrapper .grayHeader").css("top", (scrolltop) + "px");
+	});
 
 	} catch (ex) {
 		try {console.log(ex)} catch (ex) {};	

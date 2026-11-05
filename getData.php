@@ -4,8 +4,10 @@
 by Nick Kasprak
 CBPP*/
 
-function returnCEPData($state,$district,$isp) {
-	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
+$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
+
+function returnCEPData($state,$district,$isp,$show) {
+	global $mysqli;
 	$mysqli->set_charset("utf8");
 	$state = mysqli_real_escape_string($mysqli,$state);
 	$dataQuery = "SELECT * FROM cepdata_data WHERE `state` = \"" . $state . "\"";
@@ -47,6 +49,11 @@ function returnCEPData($state,$district,$isp) {
 		}
 		$dataQuery .= ")";
 	}
+	if ($show == "Y") {
+		$dataQuery .= " AND `participation` = 'Y'";
+	} else if ($show == "N") {
+		$dataQuery .= " AND ISNULL(`participation`)";	
+	}
 	$dataResult = $mysqli->query($dataQuery);
 	$returnObj = array();
 	while ($row = $dataResult->fetch_array(MYSQLI_ASSOC)) {
@@ -57,7 +64,7 @@ function returnCEPData($state,$district,$isp) {
 };
 
 function returnDistrictList($state) {
-	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
+	global $mysqli;
 	$mysqli->set_charset("utf8");
 	$state = mysqli_real_escape_string($mysqli,$state);
 	$districtQuery = "SELECT * FROM cepdata_districts WHERE `state` = \"" . $state ."\"";
@@ -77,7 +84,7 @@ function returnDistrictList($state) {
 };
 
 function returnColumnNames() {
-	$mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
+	global $mysqli;
 	$mysqli->set_charset("utf8");
 	$columnQuery = "SELECT * FROM cepdata_columns";
 	$columnResult = $mysqli->query($columnQuery);
