@@ -15,7 +15,7 @@ function returnCEPData($state,$district,$isp,$show) {
 		$dataQuery .=  " AND (";
 		for ($i=0;$i<count($district);$i++) {
 			$district[$i] = mysqli_real_escape_string($mysqli,$district[$i]);
-			$dataQuery .= "`district_id` = " . $district[$i];
+			$dataQuery .= "`district_id` = " . (int) $district[$i];
 			if ($i<count($district)-1) $dataQuery .= " OR ";
 		}
 		$dataQuery .= ")";
